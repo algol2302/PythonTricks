@@ -1,11 +1,13 @@
-from types import MappingProxyType
+import heapq
 from collections import namedtuple
-from typing import NamedTuple
-from sys import getsizeof
+from queue import PriorityQueue
 from struct import Struct
+from sys import getsizeof
+from types import MappingProxyType
+from typing import NamedTuple
 
 
-def test_MappingProxyType(name):
+def test_mapping_proxy_type():
     read_only = MappingProxyType({"a": 1, "b": 2})
     print(read_only)
 
@@ -50,7 +52,7 @@ def test_namedtuples():
     )
 
 
-def test_Struct():
+def test_struct():
     """https://docs.python.org/3/library/struct.html"""
 
     MyStruct = Struct('i?f')
@@ -58,8 +60,34 @@ def test_Struct():
     print(f"Packed data: {data}, unpacked: {MyStruct.unpack(data)}")
 
 
+def test_heapq():
+    q = []
+    heapq.heappush(q, (2, 'программировать'))
+    heapq.heappush(q, (1, 'есть'))
+    heapq.heappush(q, (3, 'спать'))
+
+    print(f"Initial heapq: {q}")
+
+    while q:
+        next_item = heapq.heappop(q)
+        print(next_item, q)
+
+
+def test_priorityqueue():
+    q = PriorityQueue()
+    q.put((2, 'программировать'))
+    q.put((1, 'есть'))
+    q.put((3, 'спать'))
+
+    print(f"Initial PriorityQueue: {q.queue}")
+
+    while not q.empty():
+        next_item = q.get()
+        print(next_item, q.queue)
+
+
 if __name__ == '__main__':
-    test_MappingProxyType('PyCharm')
+    test_mapping_proxy_type()
     print("--------")
 
     test_bytes()
@@ -68,4 +96,10 @@ if __name__ == '__main__':
     test_namedtuples()
     print("--------")
 
-    test_Struct()
+    test_struct()
+    print("--------")
+
+    test_heapq()
+    print("--------")
+
+    test_priorityqueue()
